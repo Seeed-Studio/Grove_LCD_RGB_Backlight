@@ -1,3 +1,25 @@
+/*
+  rgb_lcd.cpp
+  2013 Copyright (c) Seeed Technology Inc.  All right reserved.
+
+  Author:Loovee
+  2013-9-18
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 #include <Arduino.h>
 #include <stdio.h>
 #include <string.h>
@@ -5,9 +27,6 @@
 #include <Wire.h>
 
 #include "rgb_lcd.h"
-
-#define I2C_ADDRESS     (0x7c>>1)
-
 
 void i2c_send_byte(unsigned char dta)
 {
@@ -193,11 +212,6 @@ void rgb_lcd::createChar(uint8_t location, uint8_t charmap[])
         dta[i+1] = charmap[i];
     }
     i2c_send_byteS(dta, 9);
-    
-    /*
-    for (int i=0; i<8; i++) {
-        write(charmap[i]);
-    }*/
 }
 
 /*********** mid level commands, for sending data/cmds */
