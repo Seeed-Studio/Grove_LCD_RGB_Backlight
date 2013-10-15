@@ -30,14 +30,14 @@
 
 void i2c_send_byte(unsigned char dta)
 {
-    Wire.beginTransmission(I2C_ADDRESS);        // transmit to device #4
+    Wire.beginTransmission(LCD_ADDRESS);        // transmit to device #4
     Wire.write(dta);                            // sends five bytes
     Wire.endTransmission();                     // stop transmitting
 }
 
 void i2c_send_byteS(unsigned char *dta, unsigned char len)
 {
-    Wire.beginTransmission(I2C_ADDRESS);        // transmit to device #4
+    Wire.beginTransmission(LCD_ADDRESS);        // transmit to device #4
     for(int i=0; i<len; i++)
     {
         Wire.write(dta[i]);
@@ -96,6 +96,14 @@ void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize)
     _displaymode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
     // set the entry mode
     command(LCD_ENTRYMODESET | _displaymode);
+    
+    
+    // backlight init
+    setReg(0, 0);
+    setReg(1, 0);
+    setReg(0x08, 0xAA);     // all led control by pwm
+    
+    setColorWhite();
 
 }
 
@@ -108,8 +116,8 @@ void rgb_lcd::clear()
 
 void rgb_lcd::home()
 {
-    command(LCD_RETURNHOME);  // set cursor position to zero
-    delayMicroseconds(2000);  // this command takes a long time!
+    command(LCD_RETURNHOME);        // set cursor position to zero
+    delayMicroseconds(2000);        // this command takes a long time!
 }
 
 void rgb_lcd::setCursor(uint8_t col, uint8_t row)
@@ -230,4 +238,33 @@ inline size_t rgb_lcd::write(uint8_t value)
     unsigned char dta[2] = {0x40, value};
     i2c_send_byteS(dta, 2);
     return 1; // assume sucess
+}
+
+void rgb_lcd::setReg(unsigned char addr, unsigned char dta)
+{
+    Wire.beginTransmission(RGB_ADDRESS); // transmit to device #4
+    Wire.write(addr);
+    Wire.write(dta);
+    Wire.endTransmission();    // stop transmitting
+}
+
+void rgb_lcd::setRGB(unsigned char r, unsigned char g, unsigned char b)
+{
+    setReg(REG_RED, r);
+    setReg(REG_GREEN, g);
+    setReg(REG_BLUE, b);
+}
+
+const unsigned char color_define[4][3] = 
+{
+    {255, 255, 255},            // white
+    {255, 0, 0},                // red
+    {0, 255, 0},                // green
+    {0, 0, 255},                // blue
+};
+
+void rgb_lcd::setColor(unsigned char color)
+{
+    if(color > 3)return ;
+    setRGB(color_define[color][0], color_define[color][1], color_define[color][2]);
 }

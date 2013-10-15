@@ -5,6 +5,8 @@
   Author:Loovee
   2013-9-18
 
+  add rgb backlight fucnction @ 2013-10-15
+  
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -28,8 +30,23 @@
 #include "Print.h"
 
 // Device I2C Arress
-#define I2C_ADDRESS     (0x7c>>1)
+#define LCD_ADDRESS     (0x7c>>1)
+#define RGB_ADDRESS     (0xc4>>1)
 
+
+// color define 
+#define WHITE           0
+#define RED             1
+#define GREEN           2
+#define BLUE            3
+
+#define REG_RED         0x04        // pwm2
+#define REG_GREEN       0x03        // pwm1
+#define REG_BLUE        0x02        // pwm0
+
+#define REG_MODE1       0x00
+#define REG_MODE2       0x01
+#define REG_OUTPUT      0x08
 
 // commands
 #define LCD_CLEARDISPLAY 0x01
@@ -98,10 +115,19 @@ public:
   virtual size_t write(uint8_t);
   void command(uint8_t);
   
+  // color control
+  void setRGB(unsigned char r, unsigned char g, unsigned char b);               // set rgb
+  void setPWM(unsigned char color, unsigned char pwm){setReg(color, pwm);}      // set pwm
+  
+  void setColor(unsigned char color);
+  void setColorAll(){setRGB(0, 0, 0);}
+  void setColorWhite(){setRGB(255, 255, 255);}
+  
   using Print::write;
   
 private:
   void send(uint8_t, uint8_t);
+  void setReg(unsigned char addr, unsigned char dta);
 
   uint8_t _displayfunction;
   uint8_t _displaycontrol;
