@@ -27,10 +27,17 @@
 
 rgb_lcd lcd;
 
+const int colorR = 255;
+const int colorG = 0;
+const int colorB = 0;
+
 void setup() 
 {
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
+    
+    lcd.setRGB(colorR, colorG, colorB);
+    
     // Print a message to the LCD.
     lcd.print("hello, world!");
 

@@ -28,6 +28,11 @@ noAutoscroll	KEYWORD2
 createChar	KEYWORD2
 write	KEYWORD2
 command	KEYWORD2
+setRGB	KEYWORD2
+setPWM	KEYWORD2
+setColor	KEYWORD2
+setColorWhite	KEYWORD2
+
 
 #######################################
 # Constants (LITERAL1)
