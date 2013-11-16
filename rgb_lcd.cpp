@@ -45,6 +45,10 @@ void i2c_send_byteS(unsigned char *dta, unsigned char len)
     Wire.endTransmission();                     // stop transmitting
 }
 
+rgb_lcd::rgb_lcd()
+{
+}
+
 void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) 
 {
 
