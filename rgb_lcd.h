@@ -90,6 +90,7 @@ class rgb_lcd : public Print
 {
 
 public:
+  rgb_lcd();
 
   void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
 
