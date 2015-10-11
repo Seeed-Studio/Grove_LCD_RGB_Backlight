@@ -111,9 +111,12 @@ void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize)
     
     
     // backlight init
-    setReg(0, 0);
-    setReg(1, 0);
-    setReg(0x08, 0xAA);     // all led control by pwm
+    setReg(REG_MODE1, 0);
+    // set LEDs controllable by both PWM and GRPPWM registers
+    setReg(REG_OUTPUT, 0xFF);
+    // set MODE2 values
+    // 0010 0000 -> 0x20  (DMBLNK to 1, ie blinky mode)
+    setReg(REG_MODE2, 0x20);
     
     setColorWhite();
 
@@ -232,6 +235,21 @@ void rgb_lcd::createChar(uint8_t location, uint8_t charmap[])
         dta[i+1] = charmap[i];
     }
     i2c_send_byteS(dta, 9);
+}
+
+// Control the backlight LED blinking
+void rgb_lcd::blinkLED(void)
+{
+    // blink period in seconds = (<reg 7> + 1) / 24
+    // on/off ratio = <reg 6> / 256
+    setReg(0x07, 0x17);  // blink every second
+    setReg(0x06, 0x7f);  // half on, half off
+}
+
+void rgb_lcd::noBlinkLED(void)
+{
+    setReg(0x07, 0x00);
+    setReg(0x06, 0xff);
 }
 
 /*********** mid level commands, for sending data/cmds */
