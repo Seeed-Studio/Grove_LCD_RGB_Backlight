@@ -129,6 +129,10 @@ public:
   void setColor(unsigned char color);
   void setColorAll(){setRGB(0, 0, 0);}
   void setColorWhite(){setRGB(255, 255, 255);}
+
+  // blink the LED backlight
+  void blinkLED(void);
+  void noBlinkLED(void);
   
   using Print::write;
   

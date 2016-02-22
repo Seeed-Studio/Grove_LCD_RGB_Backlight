@@ -58,6 +58,12 @@ You can clear the display by this function:
     void noCursor();
     void cursor();
 
+<br>
+### Blink LED Backlight
+
+    void noBlinkLED();
+    void blinkLED();
+
 
 <br>
 For more information, please refer to [wiki page](http://www.seeedstudio.com/wiki/Grove_-_LCD_RGB_Backlight).
