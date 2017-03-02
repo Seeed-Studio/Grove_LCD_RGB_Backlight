@@ -1,7 +1,7 @@
 Grove - LCD RGB Backlight
 ---------------------------------------------------------
 
-[![Grove - LCD RGB Backlight](http://www.seeedstudio.com/depot/images/product/LCD%20RGB.jpg)](http://www.seeedstudio.com/depot/grove-lcd-rgb-backlight-p-1643.html?cPath=34_36)
+[![Grove - LCD RGB Backlight](https://raw.githubusercontent.com/SeeedDocument/Grove_LCD_RGB_Backlight/master/images/intro.jpg)
 
 
 
