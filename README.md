@@ -8,8 +8,6 @@ Grove - LCD RGB Backlight
 Done with the tedious mono color backlight? This Grove - LCD RBG Backlight enables you to set the color to whatever you like via the simple and concise Grove interface. It takes I2C as the communication method with your microcontroller. The number of pins required for data exchange and backlight control shrinks from ~10 to 2, relieving IOs for other challenging tasks. In addition, Grove - LCD RGB Backlight supports user-defined characters. Want to get a love heart or another custom character? Just take advantage of this feature and design it!
 
 
-
-<br>
 ## Usage:
 
 This is an Arudino Library. It include a .h file, a .cpp file and some examples. Through these examples, you can quickly master the use of Grove - LCD RGB Backlight.
@@ -25,46 +23,39 @@ Before we use this lcd, we should initialize it. You can use this function:
 This means that this lcd has 16 columns and 2 rows.
 
 
-<br>
 ### Change Color of Backlight
 One of Grove - LCD RGB Backlight's most important feature is changing the backlight color. It's very simple; just use the folowing function:
 
     void setRGB(int r, int g, int b);
 
 
-<br>
 ### Clear Display
 
 You can clear the display by this function:
 
     void clear();
 
-<br>
 ### Turn on and turn off display
 
     void noDisplay();			// turn off display
     void display();				// turn on display
 
-<br>
 ### Blink
 
     void noBlink();
     void blink();
 
-<br>
 ### Cursor
 
     void noCursor();
     void cursor();
 
-<br>
 ### Blink LED Backlight
 
     void noBlinkLED();
     void blinkLED();
 
 
-<br>
 For more information, please refer to [wiki page](http://www.seeedstudio.com/wiki/Grove_-_LCD_RGB_Backlight).
 
     
