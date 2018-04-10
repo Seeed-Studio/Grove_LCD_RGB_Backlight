@@ -1,10 +1,11 @@
 Grove - LCD RGB Backlight
 ---------------------------------------------------------
 
-[![Grove - LCD RGB Backlight](https://raw.githubusercontent.com/SeeedDocument/Grove_LCD_RGB_Backlight/master/images/intro.jpg)](http://www.seeedstudio.com/depot/grove-lcd-rgb-backlight-p-1643.html?cPath=34_36)
+![Grove - LCD RGB Backlight](https://raw.githubusercontent.com/SeeedDocument/Grove_LCD_RGB_Backlight/master/images/intro.jpg)
 
 
-<br>
+[Grove - LCD RGB Backlight](https://www.seeedstudio.com/Grove-LCD-RGB-Backlight-p-1643.html)
+
 Done with the tedious mono color backlight? This Grove - LCD RBG Backlight enables you to set the color to whatever you like via the simple and concise Grove interface. It takes I2C as the communication method with your microcontroller. The number of pins required for data exchange and backlight control shrinks from ~10 to 2, relieving IOs for other challenging tasks. In addition, Grove - LCD RGB Backlight supports user-defined characters. Want to get a love heart or another custom character? Just take advantage of this feature and design it!
 
 
@@ -56,7 +57,7 @@ You can clear the display by this function:
     void blinkLED();
 
 
-For more information, please refer to [wiki page](http://www.seeedstudio.com/wiki/Grove_-_LCD_RGB_Backlight).
+For more information, please refer to [wiki page](http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/).
 
     
 ----
