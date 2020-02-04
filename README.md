@@ -1,4 +1,4 @@
-Grove - LCD RGB Backlight
+Grove - LCD RGB Backlight  [![Build Status](https://travis-ci.com/Seeed-Studio/Grove_LCD_RGB_Backlight.svg?branch=master)](https://travis-ci.com/Seeed-Studio/Grove_LCD_RGB_Backlight)
 ---------------------------------------------------------
 
 ![Grove - LCD RGB Backlight](https://raw.githubusercontent.com/SeeedDocument/Grove_LCD_RGB_Backlight/master/images/intro.jpg)
