@@ -36,18 +36,18 @@
 
 #include "rgb_lcd.h"
 
-void i2c_send_byte(unsigned char dta) {
-    Wire.beginTransmission(LCD_ADDRESS);        // transmit to device #4
-    Wire.write(dta);                            // sends five bytes
-    Wire.endTransmission();                     // stop transmitting
+void rgb_lcd::i2c_send_byte(unsigned char dta) {
+    _wire->beginTransmission(LCD_ADDRESS);        // transmit to device #4
+    _wire->write(dta);                            // sends five bytes
+    _wire->endTransmission();                     // stop transmitting
 }
 
-void i2c_send_byteS(unsigned char* dta, unsigned char len) {
-    Wire.beginTransmission(LCD_ADDRESS);        // transmit to device #4
+void rgb_lcd::i2c_send_byteS(unsigned char* dta, unsigned char len) {
+    _wire->beginTransmission(LCD_ADDRESS);        // transmit to device #4
     for (int i = 0; i < len; i++) {
-        Wire.write(dta[i]);
+        _wire->write(dta[i]);
     }
-    Wire.endTransmission();                     // stop transmitting
+    _wire->endTransmission();                     // stop transmitting
 }
 
 rgb_lcd::rgb_lcd()
@@ -60,9 +60,10 @@ rgb_lcd::rgb_lcd()
 {
 }
 
-void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
+void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize, TwoWire &wire) {
 
-    Wire.begin();
+    _wire = &wire;
+    _wire->begin();
 
     if (lines > 1) {
         _displayfunction |= LCD_2LINE;
@@ -254,10 +255,10 @@ inline size_t rgb_lcd::write(uint8_t value) {
 }
 
 void rgb_lcd::setReg(unsigned char addr, unsigned char dta) {
-    Wire.beginTransmission(RGB_ADDRESS); // transmit to device #4
-    Wire.write(addr);
-    Wire.write(dta);
-    Wire.endTransmission();    // stop transmitting
+    _wire->beginTransmission(RGB_ADDRESS); // transmit to device #4
+    _wire->write(addr);
+    _wire->write(dta);
+    _wire->endTransmission();    // stop transmitting
 }
 
 void rgb_lcd::setRGB(unsigned char r, unsigned char g, unsigned char b) {

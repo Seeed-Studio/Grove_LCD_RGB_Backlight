@@ -23,6 +23,14 @@ Before we use this lcd, we should initialize it. You can use this function:
 
 This means that this lcd has 16 columns and 2 rows.
 
+Optionally you can also specify the character size: LCD_5x10DOTS  or LCD_5x8DOTS which is the default
+
+and for those board who support different Wire objects, which one:  
+
+Example:
+    lcd.begin(16, 2, LCD_5x8DOTS, Wire2);
+
+
 
 ### Change Color of Backlight
 One of Grove - LCD RGB Backlight's most important feature is changing the backlight color. It's very simple; just use the folowing function:
