@@ -34,6 +34,7 @@
 
 #include <inttypes.h>
 #include "Print.h"
+#include <Wire.h>
 
 // Device I2C Arress
 #define LCD_ADDRESS     (0x7c>>1)
@@ -97,7 +98,7 @@ class rgb_lcd : public Print {
   public:
     rgb_lcd();
 
-    void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
+    void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS, TwoWire &wire = Wire);
 
     void clear();
     void home();
@@ -144,6 +145,8 @@ class rgb_lcd : public Print {
   private:
     void send(uint8_t, uint8_t);
     void setReg(unsigned char addr, unsigned char dta);
+    void i2c_send_byte(unsigned char dta);
+    void i2c_send_byteS(unsigned char* dta, unsigned char len);
 
     uint8_t _displayfunction;
     uint8_t _displaycontrol;
@@ -152,6 +155,8 @@ class rgb_lcd : public Print {
     uint8_t _initialized;
 
     uint8_t _numlines, _currline;
+
+    TwoWire *_wire;
 };
 
 #endif
