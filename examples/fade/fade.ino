@@ -52,9 +52,9 @@ void breath(unsigned char color) {
 }
 
 void loop() {
-    breath(REG_RED);
-    breath(REG_GREEN);
-    breath(REG_BLUE);
+    breath(RED);
+    breath(GREEN);
+    breath(BLUE);
 }
 
 /*********************************************************************************************************
