@@ -121,13 +121,6 @@ void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize, TwoWire &wire)
         setReg(0x00, 0x07); // reset the chip
         delayMicroseconds(200); // wait 200 us to complete
         setReg(0x04, 0x15); // set all led always on
-
-        // setReg(0x04, 0x00); //initialization LED off
-        // setReg(0x06, 0x00); //set blue current is 0.125mA
-        // setReg(0x07, 0x00); //set green current is 0.125mA
-        // setReg(0x08, 0x00); //set red current is 0.125mA
-        // setReg(0x04, 0x41); //set blue and green always on
-        // setReg(0x00, 0x00); //mode set--IC work when both SCL and SDA goes high
     }
     else
     {
