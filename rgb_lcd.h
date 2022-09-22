@@ -39,6 +39,7 @@
 // Device I2C Arress
 #define LCD_ADDRESS     (0x7c>>1)
 #define RGB_ADDRESS     (0xc4>>1)
+#define RGB_ADDRESS_V5  (0x30)
 
 
 // color define
@@ -46,10 +47,6 @@
 #define RED             1
 #define GREEN           2
 #define BLUE            3
-
-#define REG_RED         0x04        // pwm2
-#define REG_GREEN       0x03        // pwm1
-#define REG_BLUE        0x02        // pwm0
 
 #define REG_MODE1       0x00
 #define REG_MODE2       0x01
@@ -123,10 +120,8 @@ class rgb_lcd : public Print {
     void command(uint8_t);
 
     // color control
-    void setRGB(unsigned char r, unsigned char g, unsigned char b);               // set rgb
-    void setPWM(unsigned char color, unsigned char pwm) {
-        setReg(color, pwm);   // set pwm
-    }
+    void setRGB(unsigned char r, unsigned char g, unsigned char b); // set rgb
+    void setPWM(unsigned char color, unsigned char pwm); // set pwm
 
     void setColor(unsigned char color);
     void setColorAll() {
@@ -148,6 +143,8 @@ class rgb_lcd : public Print {
     void i2c_send_byte(unsigned char dta);
     void i2c_send_byteS(unsigned char* dta, unsigned char len);
 
+    uint8_t rgb_chip_addr;
+    
     uint8_t _displayfunction;
     uint8_t _displaycontrol;
     uint8_t _displaymode;

@@ -113,13 +113,26 @@ void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize, TwoWire &wire)
     command(LCD_ENTRYMODESET | _displaymode);
 
 
-    // backlight init
-    setReg(REG_MODE1, 0);
-    // set LEDs controllable by both PWM and GRPPWM registers
-    setReg(REG_OUTPUT, 0xFF);
-    // set MODE2 values
-    // 0010 0000 -> 0x20  (DMBLNK to 1, ie blinky mode)
-    setReg(REG_MODE2, 0x20);
+    // check rgb chip model
+    _wire->beginTransmission(RGB_ADDRESS_V5);
+    if (_wire->endTransmission () == 0)
+    {
+        rgb_chip_addr = RGB_ADDRESS_V5;
+        setReg(0x00, 0x07); // reset the chip
+        delayMicroseconds(200); // wait 200 us to complete
+        setReg(0x04, 0x15); // set all led always on
+    }
+    else
+    {
+        rgb_chip_addr = RGB_ADDRESS;
+        // backlight init
+        setReg(REG_MODE1, 0);
+        // set LEDs controllable by both PWM and GRPPWM registers
+        setReg(REG_OUTPUT, 0xFF);
+        // set MODE2 values
+        // 0010 0000 -> 0x20  (DMBLNK to 1, ie blinky mode)
+        setReg(REG_MODE2, 0x20);
+    }
 
     setColorWhite();
 
@@ -227,15 +240,36 @@ void rgb_lcd::createChar(uint8_t location, uint8_t charmap[]) {
 
 // Control the backlight LED blinking
 void rgb_lcd::blinkLED(void) {
-    // blink period in seconds = (<reg 7> + 1) / 24
-    // on/off ratio = <reg 6> / 256
-    setReg(0x07, 0x17);  // blink every second
-    setReg(0x06, 0x7f);  // half on, half off
+    if (rgb_chip_addr == RGB_ADDRESS_V5)
+    {
+        // attach all led to pwm1
+        // blink period in seconds = (<reg 1> + 2) *0.128s
+        // pwm1 on/off ratio = <reg 2> / 256
+        setReg(0x04, 0x2a);  // 0010 1010
+        setReg(0x01, 0x06);  // blink every second
+        setReg(0x02, 0x7f);  // half on, half off
+    }
+    else
+    {
+        // blink period in seconds = (<reg 7> + 1) / 24
+        // on/off ratio = <reg 6> / 256
+        setReg(0x07, 0x17);  // blink every second
+        setReg(0x06, 0x7f);  // half on, half off
+    }
+    
+
 }
 
 void rgb_lcd::noBlinkLED(void) {
-    setReg(0x07, 0x00);
-    setReg(0x06, 0xff);
+    if (rgb_chip_addr == RGB_ADDRESS_V5)
+    {
+        setReg(0x04, 0x15);  // 0001 0101
+    }
+    else
+    {
+        setReg(0x07, 0x00);
+        setReg(0x06, 0xff);
+    }
 }
 
 /*********** mid level commands, for sending data/cmds */
@@ -254,17 +288,46 @@ inline size_t rgb_lcd::write(uint8_t value) {
     return 1; // assume sucess
 }
 
-void rgb_lcd::setReg(unsigned char addr, unsigned char dta) {
-    _wire->beginTransmission(RGB_ADDRESS); // transmit to device #4
-    _wire->write(addr);
-    _wire->write(dta);
+void rgb_lcd::setReg(unsigned char reg, unsigned char dat) {
+    _wire->beginTransmission(rgb_chip_addr); // transmit to device #4
+    _wire->write(reg);
+    _wire->write(dat);
     _wire->endTransmission();    // stop transmitting
 }
 
 void rgb_lcd::setRGB(unsigned char r, unsigned char g, unsigned char b) {
-    setReg(REG_RED, r);
-    setReg(REG_GREEN, g);
-    setReg(REG_BLUE, b);
+    if (rgb_chip_addr == RGB_ADDRESS_V5)
+    {
+        setReg(0x08, r);
+        setReg(0x07, g);
+        setReg(0x06, b);
+    }
+    else
+    {
+        setReg(0x04, r);
+        setReg(0x03, g);
+        setReg(0x02, b);
+    }
+}
+
+void rgb_lcd::setPWM(unsigned char color, unsigned char pwm) {
+    switch (color)
+    {
+        case WHITE:
+            setRGB(pwm, pwm, pwm);
+            break;
+        case RED:
+            setRGB(pwm, 0, 0);
+            break;
+        case GREEN:
+            setRGB(0, pwm, 0);
+            break;
+        case BLUE:
+            setRGB(0, 0, pwm);
+            break;
+        default:
+            break;
+    }
 }
 
 const unsigned char color_define[4][3] = {
