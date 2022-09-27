@@ -305,9 +305,9 @@ void rgb_lcd::setReg(unsigned char reg, unsigned char dat) {
 void rgb_lcd::setRGB(unsigned char r, unsigned char g, unsigned char b) {
     if (rgb_chip_addr == RGB_ADDRESS_V5)
     {
-        setReg(0x08, r);
+        setReg(0x06, r);
         setReg(0x07, g);
-        setReg(0x06, b);
+        setReg(0x08, b);
     }
     else
     {
