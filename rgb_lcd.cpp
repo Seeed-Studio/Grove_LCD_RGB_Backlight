@@ -239,7 +239,7 @@ void rgb_lcd::createChar(uint8_t location, uint8_t charmap[]) {
 }
 
 // Equivalent to createChar but using array from PROGMEM
-void rgb_lcd::createCharFromProgmem(uint8_t, const uint8_t *) {
+void rgb_lcd::createCharFromProgmem(uint8_t location, const uint8_t *charmap) {
 
     location &= 0x7; // we only have 8 locations 0-7
     command(LCD_SETCGRAMADDR | (location << 3));
