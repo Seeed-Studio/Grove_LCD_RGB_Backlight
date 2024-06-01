@@ -238,6 +238,21 @@ void rgb_lcd::createChar(uint8_t location, uint8_t charmap[]) {
     i2c_send_byteS(dta, 9);
 }
 
+// Equivalent to createChar but using array from PROGMEM
+void rgb_lcd::createCharFromProgmem(uint8_t, const uint8_t *) {
+
+    location &= 0x7; // we only have 8 locations 0-7
+    command(LCD_SETCGRAMADDR | (location << 3));
+
+
+    unsigned char dta[9];
+    dta[0] = 0x40;
+    for (int i = 0; i < 8; i++) {
+        dta[i + 1] = pgm_read_byte_near(charmap+i));
+    }
+    i2c_send_byteS(dta, 9);
+}
+
 // Control the backlight LED blinking
 void rgb_lcd::blinkLED(void) {
     if (rgb_chip_addr == RGB_ADDRESS_V5)
