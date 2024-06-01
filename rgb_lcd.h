@@ -114,6 +114,7 @@ class rgb_lcd : public Print {
     void noAutoscroll();
 
     void createChar(uint8_t, uint8_t[]);
+    void createCharFromProgmem(uint8_t, const uint8_t *);
     void setCursor(uint8_t, uint8_t);
 
     virtual size_t write(uint8_t);
