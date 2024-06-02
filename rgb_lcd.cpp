@@ -248,7 +248,7 @@ void rgb_lcd::createCharFromProgmem(uint8_t location, const uint8_t *charmap) {
     unsigned char dta[9];
     dta[0] = 0x40;
     for (int i = 0; i < 8; i++) {
-        dta[i + 1] = pgm_read_byte_near(charmap+i));
+        dta[i + 1] = pgm_read_byte_near(charmap+i);
     }
     i2c_send_byteS(dta, 9);
 }
