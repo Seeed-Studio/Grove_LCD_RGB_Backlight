@@ -37,12 +37,18 @@
 #include "rgb_lcd.h"
 
 void rgb_lcd::i2c_send_byte(unsigned char dta) {
+    if (!_initialized) {
+	    return;
+    }
     _wire->beginTransmission(LCD_ADDRESS);        // transmit to device #4
     _wire->write(dta);                            // sends five bytes
     _wire->endTransmission();                     // stop transmitting
 }
 
 void rgb_lcd::i2c_send_byteS(unsigned char* dta, unsigned char len) {
+    if (!_initialized) {
+	    return;
+    }
     _wire->beginTransmission(LCD_ADDRESS);        // transmit to device #4
     for (int i = 0; i < len; i++) {
         _wire->write(dta[i]);
@@ -56,7 +62,8 @@ rgb_lcd::rgb_lcd()
       _displaymode(0),
       _initialized(0),
       _numlines(0),
-      _currline(0)
+      _currline(0),
+      _wire(0)
 {
 }
 
@@ -136,6 +143,7 @@ void rgb_lcd::begin(uint8_t cols, uint8_t lines, uint8_t dotsize, TwoWire &wire)
 
     setColorWhite();
 
+    _initialized = 1;
 }
 
 /********** high level commands, for the user! */
@@ -304,6 +312,9 @@ inline size_t rgb_lcd::write(uint8_t value) {
 }
 
 void rgb_lcd::setReg(unsigned char reg, unsigned char dat) {
+    if (!_initialized) {
+	    return;
+    }
     _wire->beginTransmission(rgb_chip_addr); // transmit to device #4
     _wire->write(reg);
     _wire->write(dat);
